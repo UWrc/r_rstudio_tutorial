@@ -42,10 +42,11 @@ Each topic in this tutorial is contained in its own Markdown file for easy navig
 | Section | Description |
 |-------|-------------|
 | [**00-prereqs.md**](./00-prereqs.md) | Account and access prerequisites |
-| [**/01-ood-rstudio.md**](./01-ood-rstudio.md) | RStudio via Open OnDemand |
-| [**02-customR-containers.md**](./02-customR-containers.md) | Customizing RStudio Containers |
-| [**03-Rscript-function.md**](./03-Rscript-function.md) | The Rscript function - R + Slurm |
-| [**04-task.md**](./04-task.md) | Hands-on exercise |
+| [**01-ood-rstudio.md**](./01-ood-rstudio.md) | RStudio via Open OnDemand |
+| [**02-r-containers-background.md**](./02-r-containers-background.md) | RStudio Containers Background Information |
+| [**03-customR-containers.md**](./03-customR-containers.md) | Customizing RStudio Containers |
+| [**04-Rscript-function.md**](./04-Rscript-function.md) | The Rscript function - R + Slurm |
+| [**05-task.md**](./05-task.md) | Hands-on exercise |
 
 ## Introduction Video
 

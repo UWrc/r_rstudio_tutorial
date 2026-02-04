@@ -97,49 +97,9 @@ scratch → /gscratch/scrubbed/$USER
 
 Navigate into `scratch` to access your working directory and tutorial files. All work done there uses scratch storage and avoids home directory quota issues.
 
-## Installing R Packages and Understanding Container Limits
-At this point, you should have RStudio running in your browser and be able to begin working interactively.
+## From Interactive RStudio to Reproducible Environments
+You now have RStudio running through Open OnDemand and are working from scratch storage, which is the recommended location for active analysis and tutorial files. At this stage, you can explore data, run R code interactively, and install many common R packages into your personal R library.
 
-The container you launched already includes a curated R environment (for example, tidyverse and its dependencies). You can begin customizing your R setup using: 
-```bash
-install.packages("packagename")
-```
+This workflow is ideal for learning, prototyping, and short-term analysis. However, as your projects grow in complexity, or need to be shared, rerun, or scaled on the cluster, it becomes important to think more carefully about how your software environment is defined and preserved.
 
-### What `install.packages()` Does (and Does Not Do)
-Because you configured `R_LIBS_USER`, any packages you install during this session will be placed in your personal R library (for example, `/gscratch/scrubbed/$USER/R`). This allows you to:
-* Install many commonly used R packages
-* Maintain installed packages across RStudio sessions
-* Avoid filling your home directory
-
-However, it’s important to understand that this ***does not modify the container itself***.
-
-**Containers provide:**
-* An isolated environment for reproducibility
-* Consistent, tested software stacks
-* *Read-only* system software
-
-Your personal R library works on top of the container. It can only install packages whose system-level dependencies are already present in the container or can be built without modifying the operating system.
-
-### When `install.packages()` Fails
-Some R packages require:
-* Additional system libraries (e.g., `libxml2`, `udunits`, `gdal`)
-* Specific compilers or OS-level configuration
-* Older or pinned dependency versions
-
-When those requirements are not met, `install.packages()` may fail — even though your R library path is correctly configured.
-
-***This is expected behavior in containerized environments.***
-
-### Why Custom Containers Matter
-Because R is open source and its ecosystem evolves rapidly, relying solely on ad-hoc package installs can lead to environments that are:
-* Difficult to reproduce
-* Fragile when packages or dependencies change
-* Incompatible with future updates
-
-**Building a custom R container allows you to:**
-* Control the R version
-* Install system dependencies explicitly
-* Preserve working environments over time
-* Reduce duplicated software and overall storage usage
-
-In the next section, we’ll walk through how to build a custom R container that includes the dependencies and packages you need, so your R workflows remain stable, reproducible, and portable on Hyak.
+This is where containers come in.
