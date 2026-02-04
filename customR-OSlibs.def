@@ -1,0 +1,20 @@
+Bootstrap: docker
+From: rocker/tidyverse
+
+%post
+    apt-get update -y
+
+    apt-get install -y \
+        libxml2 \
+        libxt6 \
+        zlib1g-dev \
+        libbz2-dev \
+        liblzma-dev \
+        libpcre3-dev \
+        libicu-dev \
+        libjpeg-dev \
+        libpng-dev \
+        libxml2-dev \
+        libglpk-dev
+
+    Rscript -e 'install.packages("RColorBrewer")'
