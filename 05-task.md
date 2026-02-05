@@ -53,7 +53,7 @@ ckpt_analysis.R
 *Screenshot showing the RStudio session and indicating the ckpt_analysis.R script with a red arrow.*
 
 The script will open in the Source pane (top-left).
-2. Adjust the indicated line to set the working directory to your tutorial working directory by replacing `,$USER> with your UW NetID. 
+2. Adjust the indicated line to set the working directory to your tutorial working directory by replacing <$USER> with your UW NetID. 
 
 3. Save the Rscript with your change (use the Ctrl key + S or the "Save icon"). 
 
