@@ -5,9 +5,9 @@ In this section, we’ll move from background concepts into hands-on practice. R
 These demonstrations are designed to be fast, practical, and directly relevant to common R workflows on Hyak Klone.
 
 ## What We’ll Do
-* Demo 1: Installing R Packages Without Modifying a Container
-* Demo 2: Building a Simple Custom R Container
-* Demo 3: When R Packages Require System Libraries
+* [Demo 1: Installing R Packages Without Modifying a Container](#demo-1-installing-r-packages-without-modifying-a-container)
+* [Demo 2: Building a Simple Custom R Container](#demo-2-building-a-simple-custom-r-container)
+* [Demo 3: When R Packages Require System Libraries](#demo-3-when-r-packages-require-system-libraries)
 
 ## Preparation: Allocate a compute node
 Working with containers interactively or building containers are processes to perform on compute nodes rather than the login nodes. 
@@ -22,11 +22,11 @@ salloc --partition=ckpt-all --time=2:00:00 --mem=20G
 ```
 Change directory to your workspace for this tutorial if you haven't already 
 ```bash
-cd /gscratch/scrubbed/$USER
+cd /gscratch/scrubbed/$USER/r_rstudio_tutorial
 ```
 
 ## Demo 1: Installing R Packages Without Modifying a Container
-We’ll start by running an existing Rocker container on a compute node and installing an R package interactively. This will be successful, but we’ll examine where that package was installed and what happens if configured library paths are not accessible to the container.
+We’ll start by running a Rocker container on a compute node and installing an R package interactively. This will be successful, but we’ll examine where that package was installed and what happens if configured library paths are not accessible to the container.
 
 > Goal: Understand the difference between installing packages into a personal library using bind mounts and installing packages into a container.
 
@@ -66,12 +66,13 @@ exit
 ```
 List your R library
 ```bash
-ls R
+ls ../R
 ```
 You will see that RColorBrewer is installed in your personal R library. By mounting the storage cluster `/gscratch` to the container, we were able to access files that are *outside* of the container. 
 
 If we neglect to mount `/gscratch` loading RColorBrewer fails even though we have it in our R library. The R library is not accessible if storage outside of the container is not mounted. 
 ```bash
+# open a shell in the container
 apptainer shell r-base_latest.sif
 
 # start R
@@ -86,7 +87,7 @@ library(RColorBrewer) #fails
 
 > **WARNING:** An unconfigured library path will default to your home directory storage and result in storage quota limits. 
 
-Exit R
+Exit R and the container
 ```bash
 q()
 # don't have the workspace image
@@ -94,6 +95,7 @@ q()
 # exit the container
 exit
 ```
+
 
 > **Key takeaway - Bind mounts are important and need to be applied intentionally. Containers are immutable.**
 
@@ -123,6 +125,7 @@ time apptainer build r-base-brewer.sif customR.def
 ```
 Verify RColorBrewer is installed by shelling into the container, this time without mounting `/gscratch` so that the container is completely isolated from outside packages. 
 ```bash
+# open a shell in the container
 apptainer shell r-base-brewer.sif
 
 # start R
@@ -160,7 +163,7 @@ Finally, we’ll look at a slightly more advanced example where installing an R 
 
 > Goal: Recognize when a custom container is required and understand how system-level dependencies fit into the R container workflow.
 
-Let's start the next build, which will take longer, and then discus the definition file contents while we wait. 
+Let's start the next build, which will take longer, and then discuss the definition file contents while we wait. 
 
 ```bash 
 time apptainer build r-w-libs.sif customR-OSlibs.def
@@ -171,40 +174,6 @@ While that is building, let's discuss the definition file
 ```bash 
 cat customR-OSlibs.def
 ```
-
-> #### Special Cases: Source and Bioconductor Package Installs (Build-Time Only)
-> 
-> The following installation methods must be placed in the %post section of an Apptainer definition file. These commands run at container build time and permanently modify the container environment.
-> 
-> ***These approaches cannot be used interactively in RStudio or on a running container.***
-> 
-> **Installing R packages from source**
->
-> When you need a specific package version or when prebuilt binaries are unavailable, you can install directly from a source tarball during the container build in the `%post` section of your definition file:
-> ```bash
-> wget https://cran.r-project.org/src/contrib/RColorBrewer_1.1-3.tar.gz
-> R CMD INSTALL RColorBrewer_1.1-3.tar.gz
-> ```
-> 
-> This installs the package into the container’s system R library so it is available every time the container is run.
-> 
-> **Installing Bioconductor packages**
-> Bioconductor packages are also best installed at build time and should be handled explicitly in `%post`:
-> 
-> ```bash
-> Rscript -e 'if (!require(\"BiocManager\", quietly = TRUE)) install.packages(\"BiocManager\")'
-> Rscript -e 'BiocManager::install(version = \"3.20\")'
-> 
-> #example package install from BiocManager
-> Rscript -e 'BiocManager::install(\"regioneR\")'
-> Rscript -e 'BiocManager::install(\"regioneReloaded\")'
-> ```
-> 
-> Setting the Bioconductor version helps ensure compatibility with the R version in your container and improves long-term reproducibility.
-> 
-> **Reminder:** If these installs fail, the cause is often a missing OS-level dependency. Those dependencies must also be added in the `%post` section before the R package installation commands.
-> 
-> Think of `%post` as the recipe that builds your environment. If it isn’t in `%post`, it isn’t part of the container.
 
 ### Understanding OS-Level Dependencies in R Containers
 
@@ -237,7 +206,7 @@ Many R packages include compiled code written in C, C++, or Fortran. During inst
 * libicu – internationalization and text processing
 * libglpk – linear programming and optimization
 
-If these libraries are missing, `install.packages()` will fail with compilation or linking errors—often referencing missing headers (*.h files) or shared objects (*.so files).
+If these libraries are missing, `install.packages()` will fail with compilation or linking errors—often referencing missing headers (*.h files*) or shared objects (*.so files*).
 
 #### Why This Can’t Be Done in RStudio
 
@@ -263,3 +232,35 @@ This is why custom containers are essential for R packages with nontrivial syste
 With a custom container in place, you now have a stable and reproducible R environment that no longer depends on interactive sessions or ad-hoc package installs. This is the foundation needed to move beyond RStudio and toward running real workloads on Hyak Klone.
 
 In the next section, we’ll introduce the `Rscript` command and show how it is used to run R non-interactively inside a container. You’ll learn how `Rscript`, your custom container, and Slurm work together to submit longer-running or resource-intensive jobs to the cluster, allowing analyses to run unattended on compute nodes rather than in your browser. This is the standard pattern for scaling R workflows on Hyak, moving from exploratory work in RStudio to production runs managed by Slurm.
+
+> #### Special Cases: Source and Bioconductor Package Installs (Build-Time Only)
+> 
+> The following installation methods must be placed in the `%post` section of an Apptainer definition file. These commands run at container build time and permanently modify the container environment.
+> 
+> ***These approaches cannot be used interactively in RStudio or on a running container.***
+> 
+> **Installing R packages from source**
+>
+> When you need a specific package version or when prebuilt binaries are unavailable, you can install directly from a source tarball during the container build in the `%post` section of your definition file:
+> ```bash
+> wget https://cran.r-project.org/src/contrib/RColorBrewer_1.1-3.tar.gz
+> R CMD INSTALL RColorBrewer_1.1-3.tar.gz
+> ```
+> 
+> This installs the package into the container’s system R library so it is available every time the container is run.
+> 
+> **Installing Bioconductor packages**
+> Bioconductor packages are also best installed at build time and should be handled explicitly in `%post`:
+> 
+> ```bash
+> Rscript -e 'if (!require(\"BiocManager\", quietly = TRUE)) install.packages(\"BiocManager\")'
+> Rscript -e 'BiocManager::install(version = \"3.20\")'
+> 
+> #example package install from BiocManager
+> Rscript -e 'BiocManager::install(\"regioneR\")'
+> Rscript -e 'BiocManager::install(\"regioneReloaded\")'
+> ```
+> 
+> Setting the Bioconductor version helps ensure compatibility with the R version in your container and improves long-term reproducibility.
+> 
+> **Reminder:** If these installs fail, the cause is often a missing OS-level dependency. Those dependencies must also be added in the `%post` section before the R package installation commands.

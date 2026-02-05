@@ -18,3 +18,9 @@ From: rocker/tidyverse
         libglpk-dev
 
     Rscript -e 'install.packages("RColorBrewer")'
+
+    # Recommended for use with OOD - setting up symbolic links that match klone's filesystem
+    mkdir /scr /mmfs1
+    ln --symbolic /mmfs1/sw /sw
+    ln --symbolic /mmfs1/data /data
+    ln --symbolic /mmfs1/gscratch /gscratch
