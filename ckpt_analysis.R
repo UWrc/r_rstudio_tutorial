@@ -5,6 +5,12 @@
 #libraries----
 library(tidyverse)
 
+#set working directory----
+
+#ADJUST THE FOLLOWING LINE 
+#INSERT YOUR UWNETID
+setwd("/gscratch/scrubbed/<$USER>/r_rstudio_tutorial/")
+
 #data----
 ckpt<-read.csv("sacct_ckpt_lite.csv",header=1, quote = "",row.names = NULL,stringsAsFactors = FALSE)
 

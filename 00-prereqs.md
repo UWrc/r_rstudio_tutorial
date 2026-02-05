@@ -69,7 +69,7 @@ This location is designed for active work and provides substantially more space.
 
 > ***Note:*** Scrubbed storage is temporary scratch space for active computation. It’s not backed up and files are deleted automatically after **21 days** of inactivity.
 
-Create a personal folder there and move into it:
+Create a personal folder there and move (`cd`) into it:
 
 ```bash
 mkdir /gscratch/scrubbed/$USER
@@ -84,6 +84,14 @@ git clone https://github.com/UWrc/r_rstudio_tutorial.git
 We also want to make a directory to hold the R packages we will install during the workshop. 
 ```bash
 mkdir R
+```
+
+Lastly, let's go into our tutorial materials directory and copy a example data from a shared storage location. 
+
+```bash
+cd r_rstudio_tutorial
+
+cp /sw/containers/r/sacct_ckpt_lite.csv .
 ```
 
 We'll return here later, but for how return to your home directory to configure R environment file. 
@@ -133,7 +141,7 @@ To make it easy to access high-capacity storage from within RStudio, we create a
 ln -s /gscratch/scrubbed/$USER ~/scratch
 ```
 
-This creates a directory called `scratch` in your home directory that points to your workspace for this tutorial. View that this is set up properly by listing your home director with long format, which will show the directory and its true path. 
+This creates a directory called `scratch` in your home directory that points to your workspace for this tutorial. View that this is set up properly by listing your home directory with the long format option, which will show the symbolic link and its true path. 
 ```bash
 ls -l
 ```

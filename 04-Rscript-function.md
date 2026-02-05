@@ -1,6 +1,6 @@
 # Running R Non-Interactively with `Rscript`
 
-So far, you’ve been working interactively in RStudio. While this is ideal for exploration and development, most production R workloads on Hyak Klone are run non-interactively using the `Rscript` command.
+Working interactively in RStudio is ideal for exploration and development, but most production R workloads on Hyak Klone are run non-interactively using the `Rscript` command.
 
 `Rscript` allows you to:
 * Execute a single R expression, or
@@ -36,7 +36,7 @@ All lines starting with `#SBATCH` are directives to Slurm, not shell commands.
 #### Job identification and placement
 * `--job-name=rscript-submit` Sets the job name (used in queue listings and output files).
 * `--account=uwit` Charges compute usage to this allocation.
-* `--partition=compute` Specifies which partition to run on. Use hyakalloc to see partitions you can access.
+* `--partition=compute` Specifies which partition to run on. Use `hyakalloc` to see partitions you can access.
 
 #### Resource requests
 * `--time=5:00` Maximum wall time for the job.
@@ -92,4 +92,6 @@ You should see the result of 5 + 5 and confirmation that tidyverse loaded succes
 
 > **Key Takeaway:** This pattern, custom container + `Rscript` + Slurm, is the standard way to run scalable, reproducible R workloads on Hyak Klone. Interactive RStudio sessions are for development; batch jobs are for getting real work done.
 
-Next we'll do perform a hands-on exercise that brings these skills together with Open OnDemand.
+At this point, you should start to imagine how powerful this pattern becomes when your R script runs for hours, ingests large datasets, and writes results to disk without requiring your attention. By combining a custom container, Rscript, and Slurm, you can move seamlessly from interactive development in RStudio to fully unattended, production-scale analyses on Hyak Klone. 
+
+In the next section, you’ll put this into practice by running a real analysis end-to-end using Open OnDemand.

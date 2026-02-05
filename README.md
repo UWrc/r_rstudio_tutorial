@@ -1,10 +1,12 @@
 # Using R and RStudio on Hyak Klone
 
-Welcome! This workshop is designed for researchers who already use R and RStudio and are ready to move beyond running analyses on a personal laptop or desktop. Many RStudio users come to Hyak Klone because their R jobs are long-running, computationally intensive, or require large amounts of memory—forcing them to dedicate their own computer for hours or days at a time.
+Welcome! This workshop is designed for researchers who already use R and RStudio and are ready to move beyond running analyses on a personal laptop or desktop. Many RStudio users come to Hyak Klone because their R jobs are long-running, computationally intensive, or require large amounts of memory, forcing them to dedicate their own computer for hours or days at a time.
 
 Hyak Klone provides access to powerful compute nodes and a job scheduler, allowing R workloads to run unsupervised, reliably, and at scale. By using R and RStudio through containerized environments and Open OnDemand, you can keep your local machine free while your analyses run efficiently on the supercomputer.
 
 This workshop focuses on helping you make that transition smoothly.
+
+> **Important:** This is *not* an R programming workshop. Attendees are expected to have prior experience using R. The focus is on environment setup, storage management, and scalable workflows for running R on Hyak Klone.
 
 ## Goals & Rationale
 
@@ -16,24 +18,18 @@ This workshop is specific to Hyak Klone and reflects Klone’s software and cont
 
 The workflows demonstrated here are not currently supported on Tillicum. To use a custom Rstudio container on Tillicum, consider the [**port forwarding protocol**](https://hyak.uw.edu/docs/tools/r#rstudio-container-and-graphical-user-interface) presented in our documentation. 
 
-> **Important:** This is *not* an R programming workshop. Attendees are expected to have prior experience using R. The focus is on environment setup, storage management, and scalable workflows for running R on Hyak Klone.
-
 ## Learning Objectives
 
 By the end of this workshop, participants will be able to:
 
-* Understand Hyak Klone software and container policies as they apply to R and RStudio
-* Launch RStudio Server on Klone using Open OnDemand and select appropriate compute resources
-* Configure a `.Renviron` file to control where R packages and user libraries are installed
-* Use UW-maintained, community-supported RStudio containers on Hyak Klone
-* Pull and run RStudio containers from the Rocker project on Docker Hub
-* Understand why containers are read-only at runtime and when `install.packages()` will not work
-* Build a custom R or RStudio container using a definition file to install required system dependencies and R packages
-* Use `Rscript` to submit longer-running, non-interactive R jobs to Slurm for unattended execution
-
-*Optional* / time permitting:
-
-* Understand the basics of SSH port forwarding for accessing RStudio GUIs outside of Open OnDemand
+* Understand Hyak Klone software and container policies as they apply to R and RStudio.
+* Launch RStudio Server on Klone using Open OnDemand and select appropriate compute resources.
+* Configure a `.Renviron` file to control where R packages and user libraries are installed.
+* Use UW-maintained, community-supported RStudio containers on Hyak Klone.
+* Pull and run RStudio containers from the Rocker project on Docker Hub.
+* Understand why containers are read-only at runtime and when `install.packages()` will not work.
+* Build a custom R or RStudio container using a definition file to install required system dependencies and R packages.
+* Use `Rscript` to submit longer-running, non-interactive R jobs to Slurm for unattended execution.
 
 ## Repository Structure
 
@@ -54,7 +50,7 @@ An optional introduction video accompanies this tutorial and provides a high-lev
 
 *Using R and RStudio on Hyak Klone*  - Video coming soon. 
 
-[**Slide Deck**]() from live tutorial on February 5, 2026. 
+[**Slide Deck**](./slide_deck_r_rstudio.pdf) from live tutorial on February 5, 2026. 
 
 ## Feedback
 
