@@ -48,7 +48,7 @@ Each topic in this tutorial is contained in its own Markdown file for easy navig
 
 An optional introduction video accompanies this tutorial and provides a high-level walkthrough of the concepts covered:
 
-*Using R and RStudio on Hyak Klone*  - Video coming soon. 
+[**February 5, 2026 Using R and RStudio on Hyak Klone Workshop**](https://youtu.be/LTdPg8jlLng) full recorded session. 
 
 [**Slide Deck**](./slide_deck_r_rstudio.pdf) from live tutorial on February 5, 2026. 
 
